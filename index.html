@@ -8,49 +8,98 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         .login-bg {
-            background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%);
+            background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+        }
+        /* Animasi fade untuk slider gambar */
+        .slide {
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            position: absolute;
+            inset: 0;
+        }
+        .slide.active {
+            opacity: 1;
         }
     </style>
 </head>
 <body class="bg-slate-100 font-sans text-slate-800 antialiased">
 
-    <div id="login-screen" class="login-bg min-h-screen flex items-center justify-center p-4">
-        <div class="bg-white/95 backdrop-blur-md w-full max-w-md p-8 rounded-3xl shadow-2xl transition-all duration-300 transform hover:scale-[1.01]">
-            <div class="text-center mb-8">
-                <div class="bg-blue-900 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto shadow-lg shadow-blue-900/30 mb-4">
-                    <i class="fa-solid fa-wallet text-white text-2xl"></i>
+    <div id="login-screen" class="login-bg min-h-screen flex items-center justify-center p-0 sm:p-6">
+        <div class="bg-white w-full max-w-5xl min-h-[600px] sm:rounded-3xl shadow-2xl overflow-hidden grid grid-cols-1 lg:grid-cols-12">
+            
+            <div class="hidden lg:block lg:col-span-6 relative bg-slate-900 overflow-hidden text-white">
+                <div class="slide active">
+                    <img src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=800&q=80" alt="Finance 1" class="w-full h-full object-cover opacity-40">
+                    <div class="absolute bottom-12 left-8 right-8 z-10">
+                        <span class="bg-blue-600 text-xs uppercase font-extrabold tracking-widest px-3 py-1 rounded-full">Efisiensi</span>
+                        <h3 class="text-2xl font-bold mt-3">Pencatatan Real-Time</h3>
+                        <p class="text-sm text-slate-300 mt-2">Pantau setiap rupiah yang keluar dan masuk secara instan langsung dari genggaman Anda.</p>
+                    </div>
                 </div>
-                <h2 class="text-2xl font-black text-slate-900 tracking-tight">Finance System Login</h2>
-                <p class="text-sm text-slate-500 mt-1">Silakan masuk untuk mengelola arus kas</p>
+
+                <div class="slide">
+                    <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80" alt="Finance 2" class="w-full h-full object-cover opacity-40">
+                    <div class="absolute bottom-12 left-8 right-8 z-10">
+                        <span class="bg-emerald-600 text-xs uppercase font-extrabold tracking-widest px-3 py-1 rounded-full">Analisis</span>
+                        <h3 class="text-2xl font-bold mt-3">Laporan Terstruktur</h3>
+                        <p class="text-sm text-slate-300 mt-2">Data otomatis tersinkronisasi dengan Google Spreadsheet untuk kalkulasi saldo yang akurat.</p>
+                    </div>
+                </div>
+
+                <div class="slide">
+                    <img src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?auto=format&fit=crop&w=800&q=80" alt="Finance 3" class="w-full h-full object-cover opacity-40">
+                    <div class="absolute bottom-12 left-8 right-8 z-10">
+                        <span class="bg-purple-600 text-xs uppercase font-extrabold tracking-widest px-3 py-1 rounded-full">Keamanan</span>
+                        <h3 class="text-2xl font-bold mt-3">Proteksi Data Akun</h3>
+                        <p class="text-sm text-slate-300 mt-2">Akses sistem dibatasi menggunakan enkripsi login langsung dari pangkalan data cloud Anda.</p>
+                    </div>
+                </div>
+
+                <div class="absolute bottom-6 left-8 flex gap-2 z-20">
+                    <div class="dot w-6 h-1.5 bg-white rounded-full transition-all duration-300"></div>
+                    <div class="dot w-2 h-1.5 bg-white/50 rounded-full transition-all duration-300"></div>
+                    <div class="dot w-2 h-1.5 bg-white/50 rounded-full transition-all duration-300"></div>
+                </div>
             </div>
 
-            <form id="form-login" onsubmit="handleLogin(event)">
-                <div class="mb-5">
-                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Alamat Email</label>
-                    <div class="relative">
-                        <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
-                            <i class="fa-solid fa-envelope"></i>
-                        </span>
-                        <input type="email" id="login-email" required placeholder="nama@email.com" 
-                            class="w-full pl-10 pr-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition bg-slate-50">
+            <div class="col-span-1 lg:col-span-6 flex flex-col justify-center p-8 sm:p-12 bg-white">
+                <div class="mb-8">
+                    <div class="bg-blue-950 w-12 h-12 rounded-xl flex items-center justify-center shadow-md mb-4">
+                        <i class="fa-solid fa-wallet text-white text-xl"></i>
                     </div>
+                    <h2 class="text-2xl font-black text-slate-900 tracking-tight">Laporan Realisasi Keuangan Keluarga</h2>
+                    <p class="text-sm text-slate-500 mt-1">Silakan masuk untuk mengelola arus kas keuangan</p>
                 </div>
 
-                <div class="mb-6">
-                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Kata Sandi</label>
-                    <div class="relative">
-                        <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
-                            <i class="fa-solid fa-lock"></i>
-                        </span>
-                        <input type="password" id="login-password" required placeholder="••••••••" 
-                            class="w-full pl-10 pr-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition bg-slate-50">
+                <form id="form-login" onsubmit="handleLogin(event)">
+                    <div class="mb-5">
+                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Alamat Email</label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
+                                <i class="fa-solid fa-envelope"></i>
+                            </span>
+                            <input type="email" id="login-email" required placeholder="nama@email.com" 
+                                class="w-full pl-10 pr-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition bg-slate-50">
+                        </div>
                     </div>
-                </div>
 
-                <button type="submit" id="btn-login" class="w-full bg-blue-900 hover:bg-blue-800 text-white py-3.5 rounded-xl font-bold shadow-lg shadow-blue-900/20 transition duration-200 flex items-center justify-center">
-                    Masuk Ke Sistem <i class="fa-solid fa-arrow-right ml-2 text-sm"></i>
-                </button>
-            </form>
+                    <div class="mb-6">
+                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Kata Sandi</label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
+                                <i class="fa-solid fa-lock"></i>
+                            </span>
+                            <input type="password" id="login-password" required placeholder="••••••••" 
+                                class="w-full pl-10 pr-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition bg-slate-50">
+                        </div>
+                    </div>
+
+                    <button type="submit" id="btn-login" class="w-full bg-blue-950 hover:bg-blue-900 text-white py-3.5 rounded-xl font-bold shadow-lg shadow-blue-950/20 transition duration-200 flex items-center justify-center">
+                        Masuk Ke Sistem <i class="fa-solid fa-arrow-right ml-2 text-sm"></i>
+                    </button>
+                </form>
+            </div>
+
         </div>
     </div>
 
@@ -104,13 +153,11 @@
                     <h2 class="text-lg font-bold text-slate-800 mb-4 border-b pb-2 flex items-center">
                         <i class="fa-solid fa-pen-to-square mr-2 text-blue-900"></i> Input Transaksi Baru
                     </h2>
-                    
                     <form id="form-keuangan" onsubmit="submitTransaksi(event)">
                         <div class="mb-4">
                             <label class="block text-sm font-semibold text-slate-600 mb-1">Tanggal</label>
                             <input type="date" id="tanggal" required class="w-full px-3 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500">
                         </div>
-
                         <div class="mb-4">
                             <label class="block text-sm font-semibold text-slate-600 mb-1">Jenis Transaksi</label>
                             <div class="grid grid-cols-2 gap-4">
@@ -122,7 +169,6 @@
                                 </label>
                             </div>
                         </div>
-
                         <div class="mb-4">
                             <label class="block text-sm font-semibold text-slate-600 mb-1">Kategori</label>
                             <select id="kategori" required class="w-full px-3 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white">
@@ -137,17 +183,14 @@
                                 <option value="Biaya Lain-lain">Biaya Lain-lain</option>
                             </select>
                         </div>
-
                         <div class="mb-4">
                             <label class="block text-sm font-semibold text-slate-600 mb-1">Nominal (Rupiah)</label>
                             <input type="number" id="nominal" min="1" required placeholder="Contoh: 50000" class="w-full px-3 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500">
                         </div>
-
                         <div class="mb-6">
                             <label class="block text-sm font-semibold text-slate-600 mb-1">Keterangan Tambahan</label>
                             <textarea id="keterangan" rows="3" placeholder="Tulis catatan ringkas..." class="w-full px-3 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
                         </div>
-
                         <button type="submit" id="btn-submit" class="w-full bg-blue-900 hover:bg-blue-800 text-white py-3 rounded-xl font-bold shadow-md hover:shadow-lg transition">
                             <i class="fa-solid fa-cloud-arrow-up mr-2"></i> Simpan Data
                         </button>
@@ -159,7 +202,6 @@
                         <span><i class="fa-solid fa-clock-rotate-left mr-2 text-blue-900"></i> 10 Transaksi Terakhir</span>
                         <span class="text-xs bg-blue-100 text-blue-800 px-2.5 py-1 rounded-full font-semibold">Real-Time</span>
                     </h2>
-
                     <div class="overflow-x-auto">
                         <table class="w-full text-left text-sm border-collapse">
                             <thead>
@@ -184,19 +226,37 @@
     </div>
 
     <script>
-        // Tempelkan URL Web App hasil deploy baru Anda di bawah ini
+        // MASUKKAN URL GOOGLE APPS SCRIPT WEB APP ANDA DI SINI
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyAl7HvAkINyvyBa7RtBOVphBV7bk5VXqxiQLLVLXXqctf0_2Is_w10nf8WKkWviONQ/exec";
 
-        // Cek Session login lokal saat halaman dimuat
+        // --- ENGINE IMAGE SLIDER AUTOMATIC ---
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('.dot');
+
+        function changeSlide() {
+            slides[currentSlide].classList.remove('active');
+            dots[currentSlide].classList.remove('w-6', 'bg-white');
+            dots[currentSlide].classList.add('w-2', 'bg-white/50');
+            
+            currentSlide = (currentSlide + 1) % slides.length;
+            
+            slides[currentSlide].classList.add('active');
+            dots[currentSlide].classList.remove('w-2', 'bg-white/50');
+            dots[currentSlide].classList.add('w-6', 'bg-white');
+        }
+        // Jalankan transisi otomatis slider gambar setiap 4 detik
+        setInterval(changeSlide, 4000);
+
+
+        // --- ENGINE CONTROLLER UTAMA ---
         window.addEventListener('DOMContentLoaded', () => {
             document.getElementById('tanggal').value = new Date().toISOString().substring(0, 10);
-            
             if (localStorage.getItem("isLoggedIn") === "true") {
                 showDashboard();
             }
         });
 
-        // FUNGSI PROSES LOGIN (POST)
         function handleLogin(event) {
             event.preventDefault();
             const btnLogin = document.getElementById('btn-login');
@@ -220,9 +280,8 @@
                 }
             })
             .catch(err => {
-                // Penanganan jika mode CORS bermasalah saat login (Fallback cek lokal / Alert)
                 console.error("Login Error: ", err);
-                alert("Gagal terhubung dengan server database Google. Pastikan URL Script dan internet Anda aktif.");
+                alert("Gagal terhubung dengan database Google. Periksa URL Script Anda.");
             })
             .finally(() => {
                 btnLogin.disabled = false;
@@ -230,7 +289,6 @@
             });
         }
 
-        // FUNGSI LOGOUT
         function handleLogout() {
             localStorage.removeItem("isLoggedIn");
             document.getElementById('dashboard-screen').classList.add('hidden');
@@ -244,10 +302,8 @@
             loadDashboardData();
         }
 
-        // FUNGSI AMBIL DATA (GET)
         function loadDashboardData() {
             const tableBody = document.getElementById('tabel-body-transaksi');
-            
             fetch(SCRIPT_URL)
                 .then(response => response.json())
                 .then(data => {
@@ -257,7 +313,7 @@
 
                     tableBody.innerHTML = '';
                     if (data.records.length === 0) {
-                        tableBody.innerHTML = `<tr><td colspan="5" class="text-center py-6 text-slate-400">Belum ada transaksi tercatat.</td></tr>`;
+                        tableBody.innerHTML = `<tr><td colspan="5" class="text-center py-6 text-slate-400">Belum ada transaksi.</td></tr>`;
                         return;
                     }
 
@@ -282,18 +338,17 @@
                 })
                 .catch(error => {
                     console.error('Error fetching data:', error);
-                    tableBody.innerHTML = `<tr><td colspan="5" class="text-center py-6 text-rose-500 font-medium">Gagal memuat data dari Spreadsheet. Pastikan URL Script benar.</td></tr>`;
+                    tableBody.innerHTML = `<tr><td colspan="5" class="text-center py-6 text-rose-500 font-medium">Gagal memuat data dari Spreadsheet.</td></tr>`;
                 });
         }
 
-        // FUNGSI INPUT TRANSAKSI (POST)
         function submitTransaksi(event) {
             event.preventDefault();
             const btnSubmit = document.getElementById('btn-submit');
             const originalBtnText = btnSubmit.innerHTML;
             
             btnSubmit.disabled = true;
-            btnSubmit.innerHTML = `<i class="fa-solid fa-spinner animate-spin mr-2"></i> Menyimpan Database`;
+            btnSubmit.innerHTML = `<i class="fa-solid fa-spinner animate-spin mr-2"></i> Menyimpan...`;
 
             const jenisSelected = document.querySelector('input[name="jenis"]:checked').value;
             const payload = {
@@ -310,20 +365,17 @@
                 body: JSON.stringify(payload)
             })
             .then(res => res.json())
-            .then((resData) => {
-                alert("Sukses! Transaksi berhasil terkirim dan disimpan ke Google Spreadsheet.");
-                
+            .then(() => {
+                alert("Sukses! Transaksi berhasil disimpan.");
                 document.getElementById('kategori').selectedIndex = 0;
                 document.getElementById('nominal').value = '';
                 document.getElementById('keterangan').value = '';
                 const rButtons = document.getElementsByName('jenis');
                 for(let i=0; i < rButtons.length; i++) rButtons[i].checked = false;
-                
                 loadDashboardData();
             })
             .catch(error => {
-                console.error('Error saving data:', error);
-                // Karena beberapa setelan Google Apps Script terkadang memicu CORS saat POST murni, kita jalankan reload lokal sebagai proteksi.
+                console.error('Error:', error);
                 alert("Data berhasil diproses. Memperbarui dashboard...");
                 loadDashboardData();
             })
@@ -338,4 +390,4 @@
         }
     </script>
 </body>
-</html>
+</html> 

@@ -13,7 +13,7 @@
         <header class="bg-blue-900 text-white shadow-md py-5 mb-8">
             <div class="max-w-6xl mx-auto px-4 flex justify-between items-center">
                 <div>
-                    <h1 class="text-2xl font-bold tracking-wide">FINANCE TRACKER</h1>
+                    <h1 class="text-2xl font-bold tracking-wide">LAPORAN TRANSAKSI KEUANGAN</h1>
                     <p class="text-xs text-blue-200">Sistem Pencatatan Uang Keluar Masuk Real-Time</p>
                 </div>
                 <button onclick="loadDashboardData()" class="bg-blue-800 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm transition font-medium">
@@ -80,11 +80,12 @@
                                 <option value="" disabled selected>Pilih Kategori...</option>
                                 <option value="Modal">Modal / Investasi</option>
                                 <option value="Penjualan">Penjualan / Pendapatan</option>
-                                <option value="Gaji">Gaji / Upah</option>
+                                <option value="Gaji">Gaji Bulanan</option>
+                                <option value="Gaji">Gaji Sertifikasi</option>
                                 <option value="Operasional">Biaya Operasional</option>
-                                <option value="Sewa">Sewa Tempat</option>
+                                <option value="Sewa">Biaya Pendidikan</option>
                                 <option value="Logistik">Perlengkapan & Bahan</option>
-                                <option value="Lain-lain">Lain-lain</option>
+                                <option value="Lain-lain">Biaya Lain-lain</option>
                             </select>
                         </div>
 
@@ -99,7 +100,7 @@
                         </div>
 
                         <button type="submit" id="btn-submit" class="w-full bg-blue-900 hover:bg-blue-800 text-white py-3 rounded-xl font-bold shadow-md hover:shadow-lg transition">
-                            <i class="fa-solid fa-cloud-arrow-up mr-2"></i> Simpan ke Spreadsheet
+                            <i class="fa-solid fa-cloud-arrow-up mr-2"></i> Simpan Data
                         </button>
                     </form>
                 </div>

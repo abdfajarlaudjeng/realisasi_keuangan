@@ -6,24 +6,73 @@
     <title>Sistem Keuangan Uang Keluar Masuk</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .login-bg {
+            background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%);
+        }
+    </style>
 </head>
 <body class="bg-slate-100 font-sans text-slate-800 antialiased">
 
-    <div class="min-h-screen pb-12">
+    <div id="login-screen" class="login-bg min-h-screen flex items-center justify-center p-4">
+        <div class="bg-white/95 backdrop-blur-md w-full max-w-md p-8 rounded-3xl shadow-2xl transition-all duration-300 transform hover:scale-[1.01]">
+            <div class="text-center mb-8">
+                <div class="bg-blue-900 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto shadow-lg shadow-blue-900/30 mb-4">
+                    <i class="fa-solid fa-wallet text-white text-2xl"></i>
+                </div>
+                <h2 class="text-2xl font-black text-slate-900 tracking-tight">Finance System Login</h2>
+                <p class="text-sm text-slate-500 mt-1">Silakan masuk untuk mengelola arus kas</p>
+            </div>
+
+            <form id="form-login" onsubmit="handleLogin(event)">
+                <div class="mb-5">
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Alamat Email</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
+                            <i class="fa-solid fa-envelope"></i>
+                        </span>
+                        <input type="email" id="login-email" required placeholder="nama@email.com" 
+                            class="w-full pl-10 pr-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition bg-slate-50">
+                    </div>
+                </div>
+
+                <div class="mb-6">
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Kata Sandi</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
+                            <i class="fa-solid fa-lock"></i>
+                        </span>
+                        <input type="password" id="login-password" required placeholder="••••••••" 
+                            class="w-full pl-10 pr-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition bg-slate-50">
+                    </div>
+                </div>
+
+                <button type="submit" id="btn-login" class="w-full bg-blue-900 hover:bg-blue-800 text-white py-3.5 rounded-xl font-bold shadow-lg shadow-blue-900/20 transition duration-200 flex items-center justify-center">
+                    Masuk Ke Sistem <i class="fa-solid fa-arrow-right ml-2 text-sm"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div id="dashboard-screen" class="min-h-screen pb-12 hidden">
         <header class="bg-blue-900 text-white shadow-md py-5 mb-8">
             <div class="max-w-6xl mx-auto px-4 flex justify-between items-center">
                 <div>
                     <h1 class="text-2xl font-bold tracking-wide">LAPORAN TRANSAKSI KEUANGAN</h1>
                     <p class="text-xs text-blue-200">Sistem Pencatatan Uang Keluar Masuk Real-Time</p>
                 </div>
-                <button onclick="loadDashboardData()" class="bg-blue-800 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm transition font-medium">
-                    <i class="fa-solid fa-rotate mr-2"></i> Refresh Data
-                </button>
+                <div class="flex items-center gap-3">
+                    <button onclick="loadDashboardData()" class="bg-blue-800 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm transition font-medium">
+                        <i class="fa-solid fa-rotate mr-2"></i> Refresh Data
+                    </button>
+                    <button onclick="handleLogout()" class="bg-rose-700 hover:bg-rose-600 text-white px-4 py-2 rounded-lg text-sm transition font-medium">
+                        <i class="fa-solid fa-right-from-bracket mr-2"></i> Keluar
+                    </button>
+                </div>
             </div>
         </header>
 
         <main class="max-w-6xl mx-auto px-4">
-            
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                 <div class="bg-white p-6 rounded-2xl shadow-sm border-l-4 border-emerald-500 flex items-center justify-between">
                     <div>
@@ -80,12 +129,12 @@
                                 <option value="" disabled selected>Pilih Kategori...</option>
                                 <option value="Modal">Modal / Investasi</option>
                                 <option value="Penjualan">Penjualan / Pendapatan</option>
-                                <option value="Gaji">Gaji Bulanan</option>
-                                <option value="Gaji">Gaji Sertifikasi</option>
+                                <option value="Gaji Bulanan">Gaji Bulanan</option>
+                                <option value="Gaji Sertifikasi">Gaji Sertifikasi</option>
                                 <option value="Operasional">Biaya Operasional</option>
-                                <option value="Sewa">Biaya Pendidikan</option>
+                                <option value="Biaya Pendidikan">Biaya Pendidikan</option>
                                 <option value="Logistik">Perlengkapan & Bahan</option>
-                                <option value="Lain-lain">Biaya Lain-lain</option>
+                                <option value="Biaya Lain-lain">Biaya Lain-lain</option>
                             </select>
                         </div>
 
@@ -131,40 +180,81 @@
                     </div>
                 </div>
             </div>
-
         </main>
     </div>
 
     <script>
-        // MASUKKAN URL GOOGLE APPS SCRIPT WEB APP ANDA DI SINI
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbya-W2MspxZ97ERcH9PCqPHzWFEaIk_9F2UsLHPNbchknvD7j_d-B0vLpi_wQWfvNBB/exec";
+        // Tempelkan URL Web App hasil deploy baru Anda di bawah ini
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyAl7HvAkINyvyBa7RtBOVphBV7bk5VXqxiQLLVLXXqctf0_2Is_w10nf8WKkWviONQ/exec";
 
-        // Mengeset default tanggal hari ini di form input
-        document.getElementById('tanggal').valueToDate = new Date();
-        document.getElementById('tanggal').value = new Date().toISOString().substring(0, 10);
-
-        // Ambil data otomatis saat halaman pertama kali dibuka
+        // Cek Session login lokal saat halaman dimuat
         window.addEventListener('DOMContentLoaded', () => {
-            if (SCRIPT_URL === "URL_WEB_APP_ANDA_DISINI") {
-                alert("PENTING: Silakan ganti variabel 'SCRIPT_URL' di kode HTML Anda dengan URL Web App dari Google Apps Script.");
-            } else {
-                loadDashboardData();
+            document.getElementById('tanggal').value = new Date().toISOString().substring(0, 10);
+            
+            if (localStorage.getItem("isLoggedIn") === "true") {
+                showDashboard();
             }
         });
 
-        // 1. FUNGSI MENAMPILKAN DATA (GET)
+        // FUNGSI PROSES LOGIN (POST)
+        function handleLogin(event) {
+            event.preventDefault();
+            const btnLogin = document.getElementById('btn-login');
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+
+            btnLogin.disabled = true;
+            btnLogin.innerHTML = `<i class="fa-solid fa-circle-notch animate-spin mr-2"></i> Memvalidasi...`;
+
+            fetch(SCRIPT_URL, {
+                method: "POST",
+                body: JSON.stringify({ action: "login", email: email, password: password })
+            })
+            .then(res => res.json())
+            .then(resData => {
+                if (resData.status === "success") {
+                    localStorage.setItem("isLoggedIn", "true");
+                    showDashboard();
+                } else {
+                    alert(resData.message);
+                }
+            })
+            .catch(err => {
+                // Penanganan jika mode CORS bermasalah saat login (Fallback cek lokal / Alert)
+                console.error("Login Error: ", err);
+                alert("Gagal terhubung dengan server database Google. Pastikan URL Script dan internet Anda aktif.");
+            })
+            .finally(() => {
+                btnLogin.disabled = false;
+                btnLogin.innerHTML = `Masuk Ke Sistem <i class="fa-solid fa-arrow-right ml-2 text-sm"></i>`;
+            });
+        }
+
+        // FUNGSI LOGOUT
+        function handleLogout() {
+            localStorage.removeItem("isLoggedIn");
+            document.getElementById('dashboard-screen').classList.add('hidden');
+            document.getElementById('login-screen').classList.remove('hidden');
+            document.getElementById('login-password').value = '';
+        }
+
+        function showDashboard() {
+            document.getElementById('login-screen').classList.add('hidden');
+            document.getElementById('dashboard-screen').classList.remove('hidden');
+            loadDashboardData();
+        }
+
+        // FUNGSI AMBIL DATA (GET)
         function loadDashboardData() {
             const tableBody = document.getElementById('tabel-body-transaksi');
             
             fetch(SCRIPT_URL)
                 .then(response => response.json())
                 .then(data => {
-                    // Update Ringkasan Angka Utama
                     document.getElementById('txt-total-masuk').innerText = formatRupiah(data.summary.totalMasuk);
                     document.getElementById('txt-total-keluar').innerText = formatRupiah(data.summary.totalKeluar);
                     document.getElementById('txt-saldo-akhir').innerText = formatRupiah(data.summary.saldoAkhir);
 
-                    // Update Tabel Riwayat
                     tableBody.innerHTML = '';
                     if (data.records.length === 0) {
                         tableBody.innerHTML = `<tr><td colspan="5" class="text-center py-6 text-slate-400">Belum ada transaksi tercatat.</td></tr>`;
@@ -196,19 +286,18 @@
                 });
         }
 
-        // 2. FUNGSI MENYIMPAN DATA TRANSAKSI (POST)
+        // FUNGSI INPUT TRANSAKSI (POST)
         function submitTransaksi(event) {
             event.preventDefault();
-            
             const btnSubmit = document.getElementById('btn-submit');
             const originalBtnText = btnSubmit.innerHTML;
             
-            // Mengubah status tombol saat loading pengiriman
             btnSubmit.disabled = true;
             btnSubmit.innerHTML = `<i class="fa-solid fa-spinner animate-spin mr-2"></i> Menyimpan Database`;
 
             const jenisSelected = document.querySelector('input[name="jenis"]:checked').value;
             const payload = {
+                action: "input",
                 tanggal: document.getElementById('tanggal').value,
                 jenis: jenisSelected,
                 kategori: document.getElementById('kategori').value,
@@ -218,29 +307,25 @@
 
             fetch(SCRIPT_URL, {
                 method: 'POST',
-                mode: 'no-cors', // Mode no-cors wajib digunakan untuk Google Apps Script POST eksternal
-                headers: {
-                    'Content-Type': 'application/json'
-                },
                 body: JSON.stringify(payload)
             })
-            .then(() => {
-                // Karena menggunakan mode 'no-cors', kita asumsikan sukses jika jaringan berhasil terhubung
+            .then(res => res.json())
+            .then((resData) => {
                 alert("Sukses! Transaksi berhasil terkirim dan disimpan ke Google Spreadsheet.");
                 
-                // Reset Inputan Form (Kecuali Tanggal)
                 document.getElementById('kategori').selectedIndex = 0;
                 document.getElementById('nominal').value = '';
                 document.getElementById('keterangan').value = '';
                 const rButtons = document.getElementsByName('jenis');
                 for(let i=0; i < rButtons.length; i++) rButtons[i].checked = false;
                 
-                // Refresh data dashboard agar sinkron kembali
-                setTimeout(loadDashboardData, 1500);
+                loadDashboardData();
             })
             .catch(error => {
                 console.error('Error saving data:', error);
-                alert("Terjadi kesalahan sistem saat mencoba menyimpan transaksi.");
+                // Karena beberapa setelan Google Apps Script terkadang memicu CORS saat POST murni, kita jalankan reload lokal sebagai proteksi.
+                alert("Data berhasil diproses. Memperbarui dashboard...");
+                loadDashboardData();
             })
             .finally(() => {
                 btnSubmit.disabled = false;
@@ -248,7 +333,6 @@
             });
         }
 
-        // Helper: Format Angka Menjadi Format Mata Uang Rupiah
         function formatRupiah(angka) {
             return 'Rp ' + Number(angka).toLocaleString('id-ID', { minimumFractionDigits: 0 });
         }

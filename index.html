@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Keuangan Uang Keluar Masuk</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-slate-100 font-sans text-slate-800 antialiased">
+
+    <div class="min-h-screen pb-12">
+        <header class="bg-blue-900 text-white shadow-md py-5 mb-8">
+            <div class="max-w-6xl mx-auto px-4 flex justify-between items-center">
+                <div>
+                    <h1 class="text-2xl font-bold tracking-wide">FINANCE TRACKER</h1>
+                    <p class="text-xs text-blue-200">Sistem Pencatatan Uang Keluar Masuk Real-Time</p>
+                </div>
+                <button onclick="loadDashboardData()" class="bg-blue-800 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm transition font-medium">
+                    <i class="fa-solid fa-rotate mr-2"></i> Refresh Data
+                </button>
+            </div>
+        </header>
+
+        <main class="max-w-6xl mx-auto px-4">
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div class="bg-white p-6 rounded-2xl shadow-sm border-l-4 border-emerald-500 flex items-center justify-between">
+                    <div>
+                        <p class="text-sm text-slate-500 font-medium uppercase tracking-wider">Total Pemasukan</p>
+                        <h3 id="txt-total-masuk" class="text-2xl font-bold text-emerald-600 mt-1">Rp 0</h3>
+                    </div>
+                    <div class="bg-emerald-50 p-3 rounded-xl text-emerald-500 text-xl"><i class="fa-solid fa-arrow-down-long"></i></div>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl shadow-sm border-l-4 border-rose-500 flex items-center justify-between">
+                    <div>
+                        <p class="text-sm text-slate-500 font-medium uppercase tracking-wider">Total Pengeluaran</p>
+                        <h3 id="txt-total-keluar" class="text-2xl font-bold text-rose-600 mt-1">Rp 0</h3>
+                    </div>
+                    <div class="bg-rose-50 p-3 rounded-xl text-rose-500 text-xl"><i class="fa-solid fa-arrow-up-long"></i></div>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl shadow-sm border-l-4 border-blue-600 flex items-center justify-between">
+                    <div>
+                        <p class="text-sm text-slate-500 font-medium uppercase tracking-wider">Sisa Saldo Akhir</p>
+                        <h3 id="txt-saldo-akhir" class="text-2xl font-bold text-slate-800 mt-1">Rp 0</h3>
+                    </div>
+                    <div class="bg-blue-50 p-3 rounded-xl text-blue-600 text-xl"><i class="fa-solid fa-wallet"></i></div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div class="bg-white p-6 rounded-2xl shadow-sm h-fit">
+                    <h2 class="text-lg font-bold text-slate-800 mb-4 border-b pb-2 flex items-center">
+                        <i class="fa-solid fa-pen-to-square mr-2 text-blue-900"></i> Input Transaksi Baru
+                    </h2>
+                    
+                    <form id="form-keuangan" onsubmit="submitTransaksi(event)">
+                        <div class="mb-4">
+                            <label class="block text-sm font-semibold text-slate-600 mb-1">Tanggal</label>
+                            <input type="date" id="tanggal" required class="w-full px-3 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="block text-sm font-semibold text-slate-600 mb-1">Jenis Transaksi</label>
+                            <div class="grid grid-cols-2 gap-4">
+                                <label class="border p-3 rounded-xl flex items-center justify-center cursor-pointer hover:bg-slate-50 transition font-medium">
+                                    <input type="radio" name="jenis" value="Masuk" required class="mr-2 accent-emerald-500"> Uang Masuk
+                                </label>
+                                <label class="border p-3 rounded-xl flex items-center justify-center cursor-pointer hover:bg-slate-50 transition font-medium">
+                                    <input type="radio" name="jenis" value="Keluar" required class="mr-2 accent-rose-500"> Uang Keluar
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="block text-sm font-semibold text-slate-600 mb-1">Kategori</label>
+                            <select id="kategori" required class="w-full px-3 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white">
+                                <option value="" disabled selected>Pilih Kategori...</option>
+                                <option value="Modal">Modal / Investasi</option>
+                                <option value="Penjualan">Penjualan / Pendapatan</option>
+                                <option value="Gaji">Gaji / Upah</option>
+                                <option value="Operasional">Biaya Operasional</option>
+                                <option value="Sewa">Sewa Tempat</option>
+                                <option value="Logistik">Perlengkapan & Bahan</option>
+                                <option value="Lain-lain">Lain-lain</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="block text-sm font-semibold text-slate-600 mb-1">Nominal (Rupiah)</label>
+                            <input type="number" id="nominal" min="1" required placeholder="Contoh: 50000" class="w-full px-3 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+
+                        <div class="mb-6">
+                            <label class="block text-sm font-semibold text-slate-600 mb-1">Keterangan Tambahan</label>
+                            <textarea id="keterangan" rows="3" placeholder="Tulis catatan ringkas..." class="w-full px-3 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                        </div>
+
+                        <button type="submit" id="btn-submit" class="w-full bg-blue-900 hover:bg-blue-800 text-white py-3 rounded-xl font-bold shadow-md hover:shadow-lg transition">
+                            <i class="fa-solid fa-cloud-arrow-up mr-2"></i> Simpan ke Spreadsheet
+                        </button>
+                    </form>
+                </div>
+
+                <div class="lg:col-span-2 bg-white p-6 rounded-2xl shadow-sm">
+                    <h2 class="text-lg font-bold text-slate-800 mb-4 border-b pb-2 flex items-center justify-between">
+                        <span><i class="fa-solid fa-clock-rotate-left mr-2 text-blue-900"></i> 10 Transaksi Terakhir</span>
+                        <span class="text-xs bg-blue-100 text-blue-800 px-2.5 py-1 rounded-full font-semibold">Real-Time</span>
+                    </h2>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-sm border-collapse">
+                            <thead>
+                                <tr class="bg-slate-50 text-slate-500 uppercase tracking-wider text-xs border-b">
+                                    <th class="py-3 px-4 font-semibold">Tanggal</th>
+                                    <th class="py-3 px-4 font-semibold">Kategori</th>
+                                    <th class="py-3 px-4 font-semibold text-center">Jenis</th>
+                                    <th class="py-3 px-4 font-semibold text-right">Nominal</th>
+                                    <th class="py-3 px-4 font-semibold">Keterangan</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabel-body-transaksi">
+                                <tr>
+                                    <td colspan="5" class="text-center py-8 text-slate-400 italic">Sedang memuat data keuangan dari Google Sheets...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <script>
+        // MASUKKAN URL GOOGLE APPS SCRIPT WEB APP ANDA DI SINI
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbya-W2MspxZ97ERcH9PCqPHzWFEaIk_9F2UsLHPNbchknvD7j_d-B0vLpi_wQWfvNBB/exec";
+
+        // Mengeset default tanggal hari ini di form input
+        document.getElementById('tanggal').valueToDate = new Date();
+        document.getElementById('tanggal').value = new Date().toISOString().substring(0, 10);
+
+        // Ambil data otomatis saat halaman pertama kali dibuka
+        window.addEventListener('DOMContentLoaded', () => {
+            if (SCRIPT_URL === "URL_WEB_APP_ANDA_DISINI") {
+                alert("PENTING: Silakan ganti variabel 'SCRIPT_URL' di kode HTML Anda dengan URL Web App dari Google Apps Script.");
+            } else {
+                loadDashboardData();
+            }
+        });
+
+        // 1. FUNGSI MENAMPILKAN DATA (GET)
+        function loadDashboardData() {
+            const tableBody = document.getElementById('tabel-body-transaksi');
+            
+            fetch(SCRIPT_URL)
+                .then(response => response.json())
+                .then(data => {
+                    // Update Ringkasan Angka Utama
+                    document.getElementById('txt-total-masuk').innerText = formatRupiah(data.summary.totalMasuk);
+                    document.getElementById('txt-total-keluar').innerText = formatRupiah(data.summary.totalKeluar);
+                    document.getElementById('txt-saldo-akhir').innerText = formatRupiah(data.summary.saldoAkhir);
+
+                    // Update Tabel Riwayat
+                    tableBody.innerHTML = '';
+                    if (data.records.length === 0) {
+                        tableBody.innerHTML = `<tr><td colspan="5" class="text-center py-6 text-slate-400">Belum ada transaksi tercatat.</td></tr>`;
+                        return;
+                    }
+
+                    data.records.forEach(row => {
+                        const badgeClass = row.jenis === 'Masuk' ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800';
+                        const textNominalClass = row.jenis === 'Masuk' ? 'text-emerald-600 font-semibold' : 'text-rose-600 font-semibold';
+                        const sign = row.jenis === 'Masuk' ? '+' : '-';
+
+                        const tr = document.createElement('tr');
+                        tr.className = "border-b hover:bg-slate-50 transition";
+                        tr.innerHTML = `
+                            <td class="py-3.5 px-4 text-slate-600 whitespace-nowrap">${row.tanggal}</td>
+                            <td class="py-3.5 px-4 font-medium text-slate-700">${row.kategori}</td>
+                            <td class="py-3.5 px-4 text-center">
+                                <span class="px-2.5 py-1 rounded-full text-xs font-bold uppercase tracking-wide ${badgeClass}">${row.jenis}</span>
+                            </td>
+                            <td class="py-3.5 px-4 text-right ${textNominalClass}">${sign} ${formatRupiah(row.nominal)}</td>
+                            <td class="py-3.5 px-4 text-slate-500 max-w-xs truncate" title="${row.keterangan}">${row.keterangan || '-'}</td>
+                        `;
+                        tableBody.appendChild(tr);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                    tableBody.innerHTML = `<tr><td colspan="5" class="text-center py-6 text-rose-500 font-medium">Gagal memuat data dari Spreadsheet. Pastikan URL Script benar.</td></tr>`;
+                });
+        }
+
+        // 2. FUNGSI MENYIMPAN DATA TRANSAKSI (POST)
+        function submitTransaksi(event) {
+            event.preventDefault();
+            
+            const btnSubmit = document.getElementById('btn-submit');
+            const originalBtnText = btnSubmit.innerHTML;
+            
+            // Mengubah status tombol saat loading pengiriman
+            btnSubmit.disabled = true;
+            btnSubmit.innerHTML = `<i class="fa-solid fa-spinner animate-spin mr-2"></i> Memproses ke Google...`;
+
+            const jenisSelected = document.querySelector('input[name="jenis"]:checked').value;
+            const payload = {
+                tanggal: document.getElementById('tanggal').value,
+                jenis: jenisSelected,
+                kategori: document.getElementById('kategori').value,
+                nominal: document.getElementById('nominal').value,
+                keterangan: document.getElementById('keterangan').value
+            };
+
+            fetch(SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors', // Mode no-cors wajib digunakan untuk Google Apps Script POST eksternal
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            })
+            .then(() => {
+                // Karena menggunakan mode 'no-cors', kita asumsikan sukses jika jaringan berhasil terhubung
+                alert("Sukses! Transaksi berhasil terkirim dan disimpan ke Google Spreadsheet.");
+                
+                // Reset Inputan Form (Kecuali Tanggal)
+                document.getElementById('kategori').selectedIndex = 0;
+                document.getElementById('nominal').value = '';
+                document.getElementById('keterangan').value = '';
+                const rButtons = document.getElementsByName('jenis');
+                for(let i=0; i < rButtons.length; i++) rButtons[i].checked = false;
+                
+                // Refresh data dashboard agar sinkron kembali
+                setTimeout(loadDashboardData, 1500);
+            })
+            .catch(error => {
+                console.error('Error saving data:', error);
+                alert("Terjadi kesalahan sistem saat mencoba menyimpan transaksi.");
+            })
+            .finally(() => {
+                btnSubmit.disabled = false;
+                btnSubmit.innerHTML = originalBtnText;
+            });
+        }
+
+        // Helper: Format Angka Menjadi Format Mata Uang Rupiah
+        function formatRupiah(angka) {
+            return 'Rp ' + Number(angka).toLocaleString('id-ID', { minimumFractionDigits: 0 });
+        }
+    </script>
+</body>
+</html>
